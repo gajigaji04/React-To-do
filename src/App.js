@@ -7,6 +7,7 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
 
+  // 글 작성
   const addTodo = (e) => {
     e.preventDefault();
     if (text.trim() === "") {
@@ -23,6 +24,7 @@ function App() {
     setText("");
   };
 
+  // 글 수정
   const startEditing = (todo) => {
     setEditingId(todo.id);
     setEditText(todo.text);
@@ -36,22 +38,16 @@ function App() {
     setEditText("");
   };
 
-  const toggleCompleted = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
-
   return (
     <div className="App">
+      {/* todos list */}
       <div className="list-map">
         <h2>to-do list</h2>
         {todos.map((i) => (
           <div key={i.id}>
             <div>ID: {i.id}</div>
 
+            {/* 수정 input */}
             {editingId === i.id ? (
               <>
                 <input
@@ -80,6 +76,8 @@ function App() {
           </div>
         ))}
       </div>
+
+      {/* 작성하기 기능 */}
       <div className="input">
         <form onSubmit={addTodo}>
           <div>
