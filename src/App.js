@@ -4,6 +4,8 @@ import "./App.css";
 function App() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState("");
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -21,6 +23,27 @@ function App() {
     setText("");
   };
 
+  const startEditing = (todo) => {
+    setEditingId(todo.id);
+    setEditText(todo.text);
+  };
+
+  const saveEdit = (id) => {
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, text: editText } : todo))
+    );
+    setEditingId(null);
+    setEditText("");
+  };
+
+  const toggleCompleted = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
   return (
     <div className="App">
       <div className="list-map">
@@ -28,18 +51,31 @@ function App() {
         {todos.map((i) => (
           <div key={i.id}>
             <div>ID: {i.id}</div>
-            <div>Text: {i.text}</div>
-            <div>Completed: {i.completed.toString()}</div>
-            <button>수정하기</button>
+
+            {editingId === i.id ? (
+              <>
+                <input
+                  type="text"
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                  placeholder="수정할 내용 입력하기"
+                />
+                <button onClick={() => saveEdit(i.id)}>저장</button>
+              </>
+            ) : (
+              <>
+                <div>Text: {i.text}</div>
+                <div>Completed: {i.completed.toString()}</div>
+                <button onClick={() => startEditing(i)}>수정하기</button>
+              </>
+            )}
+
             <button
-              onClick={() => {
-                let copy = [...todos];
-                copy.splice(i, 1);
-                setTodos(copy);
-              }}
+              onClick={() => setTodos(todos.filter((todo) => todo.id !== i.id))}
             >
               삭제하기
             </button>
+
             <hr />
           </div>
         ))}
