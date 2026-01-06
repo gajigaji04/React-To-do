@@ -1,23 +1,23 @@
-import logo from "./logo.svg";
+import React, { useState } from "react";
 import "./App.css";
 
 function App() {
+  const todo = [
+    { id: 1, text: "리액트 공부하기", completed: true },
+    { id: 2, text: "독서하기", completed: false },
+  ];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>to-do list</h2>
+      {todo.map((i) => (
+        <div key={i.id}>
+          <div>ID: {i.id}</div>
+          <div>Text: {i.text}</div>
+          <div>Completed: {i.completed.toString()}</div>
+          <hr />
+        </div>
+      ))}
     </div>
   );
 }
