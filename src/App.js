@@ -31,7 +31,15 @@ function App() {
             <div>Text: {i.text}</div>
             <div>Completed: {i.completed.toString()}</div>
             <button>수정하기</button>
-            <button>삭제하기</button>
+            <button
+              onClick={() => {
+                let copy = [...todos];
+                copy.splice(i, 1);
+                setTodos(copy);
+              }}
+            >
+              삭제하기
+            </button>
             <hr />
           </div>
         ))}
