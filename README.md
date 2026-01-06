@@ -8,6 +8,17 @@ React로 만든 간단한 투두 리스트 앱입니다.
 이 프로젝트를 통해 React 상태 관리, 컴포넌트 구조 설계, 사용자 인터랙션 처리 등을 공부했습니다. [Create React App](https://github.com/facebook/create-react-app).
 
 # ⚡ 주요 기능
+1️⃣ 기본 기능
+
+- CRUD: Create, Read, Update, Delete
+
+- 완료 체크: 체크박스로 완료 상태 토글
+
+- 할 일 삭제/편집: 각각 버튼 추가
+
+- 필터링: 전체 / 완료 / 미완료
+
+- 로컬 저장: 브라우저 localStorage로 데이터 유지
 
 # 🛠 사용 기술
 
