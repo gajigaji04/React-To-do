@@ -3,7 +3,6 @@ import "./App.css";
 
 function App() {
   const [todos, setTodos] = useState([]);
-
   const [text, setText] = useState("");
 
   const addTodo = (e) => {
@@ -31,6 +30,8 @@ function App() {
             <div>ID: {i.id}</div>
             <div>Text: {i.text}</div>
             <div>Completed: {i.completed.toString()}</div>
+            <button>수정하기</button>
+            <button>삭제하기</button>
             <hr />
           </div>
         ))}
