@@ -2,30 +2,38 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    { id: 1, text: "예시", completed: false },
+  ]);
   const [text, setText] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
-  const [on, setOn] = useState(false);
 
-  // 토글 버튼 기능
-  const handleToggle = () => {
-    setOn(!on);
+  // 토글 버튼
+  const toggleTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   };
 
   // 글 작성
   const addTodo = (e) => {
     e.preventDefault();
-    if (text.trim() === "") {
+    if (!text.trim()) {
       alert("내용은 공백으로 비워둘 수 없습니다.");
       return;
     }
-    const newTodo = {
-      id: todos.length + 1,
-      text: text,
-    };
 
-    setTodos([...todos, newTodo]);
+    setTodos([
+      ...todos,
+      {
+        id: Date.now(),
+        text,
+        completed: false,
+      },
+    ]);
     setText("");
   };
 
@@ -45,47 +53,40 @@ function App() {
 
   return (
     <div className="App">
-      {/* todos list */}
+      <h2 className="todo-logo">to-do list</h2>
+
       <div className="list-map">
-        <h2>to-do list</h2>
-        {todos.map((i) => (
-          <div key={i.id}>
-            {/* 토글 버튼 */}
+        {todos.map((todo) => (
+          <div key={todo.id}>
+            {/* 체크 토글 */}
             <input
               type="checkbox"
-              id="toggle-checkbox"
-              checked={on}
-              onChange={handleToggle}
-              className="toggle-box"
-            ></input>
-            <label htmlFor="toggle-checkbox">
-              <div className="toggle-slider"></div>
-            </label>
-            <span>{on ? "미완료" : "완료"}</span>
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
 
-            {/* 수정 input */}
-            {editingId === i.id ? (
+            {/* 완료 시 회색 + 취소선 */}
+            <span className={todo.completed ? "todo-done" : ""}>
+              {todo.text}
+            </span>
+
+            {/* 수정 */}
+            {editingId === todo.id ? (
               <>
                 <input
-                  type="text"
                   value={editText}
                   onChange={(e) => setEditText(e.target.value)}
-                  placeholder="수정할 내용 입력하기"
                 />
-                <button onClick={() => saveEdit(i.id)}>저장</button>
+                <button onClick={() => saveEdit(todo.id)}>저장</button>
               </>
             ) : (
-              <>
-                <div>Text: {i.text}</div>
-
-                <button onClick={() => startEditing(i)}>수정하기</button>
-              </>
+              <button onClick={() => startEditing(todo)}>수정</button>
             )}
 
             <button
-              onClick={() => setTodos(todos.filter((todo) => todo.id !== i.id))}
+              onClick={() => setTodos(todos.filter((t) => t.id !== todo.id))}
             >
-              삭제하기
+              삭제
             </button>
 
             <hr />
@@ -93,22 +94,10 @@ function App() {
         ))}
       </div>
 
-      {/* 작성하기 기능 */}
-      <div className="input">
-        <form onSubmit={addTodo}>
-          <div>
-            <input
-              type="text"
-              id="text"
-              value={text}
-              onChange={(e) => {
-                setText(e.target.value);
-              }}
-            ></input>
-            <button type="submit">작성하기</button>
-          </div>
-        </form>
-      </div>
+      <form onSubmit={addTodo}>
+        <input value={text} onChange={(e) => setText(e.target.value)} />
+        <button type="submit">작성하기</button>
+      </form>
     </div>
   );
 }
