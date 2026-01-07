@@ -9,6 +9,14 @@ function App() {
   const [text, setText] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  // 필터링 조건
+  const filterTodos = todos.filter((todo) => {
+    if (filter === "all") return true;
+    if (filter === "completed") return todo.completed;
+    if (filter === "active") return !todo.completed;
+  });
 
   // localStorage에 저장
   useEffect(() => {
@@ -18,8 +26,8 @@ function App() {
   // 토글 버튼
   const toggleTodo = (id) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      todos.map((todos) =>
+        todos.id === id ? { ...todos, completed: !todos.completed } : todos
       )
     );
   };
@@ -60,9 +68,32 @@ function App() {
   return (
     <div className="App">
       <h2 className="todo-logo">to-do list</h2>
+      <div className="filter-btn">
+        <button
+          onClick={() => {
+            setFilter("all");
+          }}
+        >
+          전체
+        </button>
+        <button
+          onClick={() => {
+            setFilter("completed");
+          }}
+        >
+          완료
+        </button>
+        <button
+          onClick={() => {
+            setFilter("active");
+          }}
+        >
+          미완료
+        </button>
+      </div>
 
       <div className="list-map">
-        {todos.map((todo) => (
+        {filterTodos.map((todo) => (
           <div key={todo.id}>
             {/* 체크 토글 */}
             <input
