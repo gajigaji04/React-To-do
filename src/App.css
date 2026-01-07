@@ -1,15 +1,10 @@
-* {
-  background-color: grey;
-}
-
 .App {
   text-align: center;
-  color: white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.todo-done {
+  color: gray;
+  text-decoration: line-through;
 }
 
 @media (prefers-reduced-motion: no-preference) {
