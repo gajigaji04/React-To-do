@@ -6,6 +6,12 @@ function App() {
   const [text, setText] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
+  const [on, setOn] = useState(false);
+
+  // 토글 버튼 기능
+  const handleToggle = () => {
+    setOn(!on);
+  };
 
   // 글 작성
   const addTodo = (e) => {
@@ -17,7 +23,6 @@ function App() {
     const newTodo = {
       id: todos.length + 1,
       text: text,
-      completed: false,
     };
 
     setTodos([...todos, newTodo]);
@@ -45,7 +50,18 @@ function App() {
         <h2>to-do list</h2>
         {todos.map((i) => (
           <div key={i.id}>
-            <div>ID: {i.id}</div>
+            {/* 토글 버튼 */}
+            <input
+              type="checkbox"
+              id="toggle-checkbox"
+              checked={on}
+              onChange={handleToggle}
+              className="toggle-box"
+            ></input>
+            <label htmlFor="toggle-checkbox">
+              <div className="toggle-slider"></div>
+            </label>
+            <span>{on ? "미완료" : "완료"}</span>
 
             {/* 수정 input */}
             {editingId === i.id ? (
@@ -61,7 +77,7 @@ function App() {
             ) : (
               <>
                 <div>Text: {i.text}</div>
-                <div>Completed: {i.completed.toString()}</div>
+
                 <button onClick={() => startEditing(i)}>수정하기</button>
               </>
             )}
