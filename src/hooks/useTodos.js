@@ -7,7 +7,6 @@ export function useTodos() {
       return saved ? JSON.parse(saved) : [];
     } catch (error) {
       console.error("localStorage 로드 실패", error);
-      return [];
     }
   });
 
