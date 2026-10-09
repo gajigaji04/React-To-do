@@ -4,14 +4,15 @@ import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
 import FilterButtons from "./components/FilterButtons";
 import { useTodos } from "./hooks/useTodos";
+import { FILTERS } from "./constants/filters";
 
 function App() {
   const { todos, addTodo, editTodo, deleteTodo, toggleTodo } = useTodos();
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState(FILTERS.ALL);
 
   const filteredTodos = todos.filter((t) => {
-    if (filter === "completed") return t.completed;
-    if (filter === "active") return !t.completed;
+    if (filter === FILTERS.COMPLETED) return t.completed;
+    if (filter === FILTERS.ACTIVE) return !t.completed;
     return true;
   });
 
